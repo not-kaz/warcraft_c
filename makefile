@@ -6,8 +6,9 @@ CF = -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes \
      -Wformat-signedness -Wformat-extra-args \
      -Wpointer-arith -Wcast-qual
 LF = -lSDL2 -lSDL2_image
+DF = -DDEBUG_MODE
 SC = main.c log.c sdl.c
 OB = warcraft
 
 all: $(SC)
-	$(CC) -g -O0 $(CF) $(SC) $(LF) -o $(OB)
+	$(CC) -g -O0 $(CF) $(SC) $(LF) -o $(OB) $(DF)
