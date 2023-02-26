@@ -35,15 +35,15 @@ void sdl_setup()
 
 void sdl_present_frame()
 {
-
+	SDL_RenderPresent(sdl_ctx.renderer);
 }
 
 void sdl_clear_frame()
 {
-
+	SDL_RenderClear(sdl_ctx.renderer);
 }
 
 void sdl_set_draw_color(uint8_t r, uint8_t g, uint8_t b)
 {
-
+	SDL_SetRenderDrawColor(sdl_ctx.renderer, r, g, b, SDL_ALPHA_OPAQUE);
 }
