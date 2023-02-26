@@ -1,10 +1,16 @@
 #include "sdl.h"
+#include "log.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_render.h>
+
+static struct {
+	SDL_Window *window;
+	SDL_Renderer *renderer;
+} sdl_ctx;
 
 void sdl_setup()
 {
-
 }
 
 void sdl_present_frame()
