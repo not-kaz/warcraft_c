@@ -81,3 +81,13 @@ void sdl_set_draw_color(uint8_t r, uint8_t g, uint8_t b)
 {
 	SDL_SetRenderDrawColor(sdl_ctx.renderer, r, g, b, SDL_ALPHA_OPAQUE);
 }
+
+void sdl_get_window_size(int *w, int *h)
+{
+	SDL_GetWindowSize(sdl_ctx.window, w, h);
+}
+
+void sdl_fill_rect(int x, int y, int w, int h)
+{
+	SDL_RenderFillRect(sdl_ctx.renderer, &(const SDL_Rect) {x, y, w, h});
+}
