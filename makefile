@@ -6,7 +6,7 @@ CF = -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes \
      -Wformat-signedness -Wformat-extra-args \
      -Wpointer-arith -Wcast-qual
 LF = -lSDL2 -lSDL2_image
-SC = main.c
+SC = main.c log.c sdl.c
 OB = warcraft
 
 all: $(SC)
