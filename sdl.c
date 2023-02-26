@@ -4,11 +4,32 @@
 #include <SDL2/SDL.h>
 
 #define SDL_INIT_FLAG (SDL_INIT_VIDEO | SDL_INIT_AUDIO)
+#define SDL_DISPLAY_INDEX 0
 
 static struct {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 } sdl_ctx;
+
+static struct {
+	SDL_DisplayMode *modes;
+	int num_modes;
+} display;
+
+static void get_display_modes(void)
+{
+	display.num_modes = SDL_GetNumDisplayModes(SDL_DISPLAY_INDEX);
+	/* TODO: Read modes from all screens connected. */
+	if (!display.num_modes) {
+		LOG_ERROR("Failed to read display modes. %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	display.modes = malloc(sizeof(SDL_DisplayMode)
+		* (size_t) display.num_modes);
+	for (int i = 0; i < display.num_modes; ++i) {
+		SDL_GetDisplayMode(SDL_DISPLAY_INDEX, i, &display.modes[i]);
+	}
+}
 
 void sdl_setup(void)
 {
@@ -21,11 +42,24 @@ void sdl_setup(void)
 		LOG_ERROR("Failed to initialize SDL. %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	sdl_ctx.window = SDL_CreateWindow("Warcraft", 0, 0, 1024, 720, 0);
+#if DEBUG_MODE
+	sdl_ctx.window = SDL_CreateWindow("Warcraft", 0, 0, 1024, 768, 0);
 	if (!sdl_ctx.window) {
 		LOG_ERROR("Failed to create SDL window. %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
+#else
+	/* TODO: Tidy this code up, store current display mode in variable. */
+	get_display_modes();
+	sdl_ctx.window = SDL_CreateWindow("Warcraft: Orcs & Humans", 0, 0,
+		display.modes[display.num_modes - 1].w,
+		display.modes[display.num_modes - 1].h,
+		SDL_WINDOW_FULLSCREEN | SDL_WINDOW_INPUT_GRABBED);
+	if (!sdl_ctx.window) {
+		LOG_ERROR("Failed to create SDL window. %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+#endif
 	sdl_ctx.renderer = SDL_CreateRenderer(sdl_ctx.window, -1, 0);
 	if (!sdl_ctx.renderer) {
 		LOG_ERROR("Failed to create SDL renderer. %s", SDL_GetError());
