@@ -10,7 +10,7 @@ static struct {
 	SDL_Renderer *renderer;
 } sdl_ctx;
 
-void sdl_setup()
+void sdl_setup(void)
 {
 	if ((SDL_WasInit(SDL_INIT_FLAG) & SDL_INIT_FLAG)
 			|| (sdl_ctx.window && sdl_ctx.renderer)) {
@@ -33,12 +33,12 @@ void sdl_setup()
 	}
 }
 
-void sdl_present_frame()
+void sdl_present_frame(void)
 {
 	SDL_RenderPresent(sdl_ctx.renderer);
 }
 
-void sdl_clear_frame()
+void sdl_clear_frame(void)
 {
 	SDL_RenderClear(sdl_ctx.renderer);
 }
