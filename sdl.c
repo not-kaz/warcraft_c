@@ -16,6 +16,7 @@ static struct {
 	int num_modes;
 } display;
 
+#ifndef DEBUG_MODE
 static void get_display_modes(void)
 {
 	display.num_modes = SDL_GetNumDisplayModes(SDL_DISPLAY_INDEX);
@@ -30,6 +31,7 @@ static void get_display_modes(void)
 		SDL_GetDisplayMode(SDL_DISPLAY_INDEX, i, &display.modes[i]);
 	}
 }
+#endif
 
 void sdl_setup(void)
 {
@@ -104,7 +106,9 @@ void sdl_set_draw_color(uint8_t r, uint8_t g, uint8_t b)
 
 void sdl_fill_rect(int x, int y, int w, int h)
 {
-	SDL_RenderFillRect(sdl_ctx.renderer, &(const SDL_Rect) {x, y, w, h});
+	SDL_Rect rect = { x, y, w, h };
+
+	SDL_RenderFillRect(sdl_ctx.renderer, &rect);
 }
 
 void sdl_get_window_size(int *w, int *h)
